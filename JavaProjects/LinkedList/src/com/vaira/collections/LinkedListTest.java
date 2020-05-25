@@ -58,23 +58,33 @@ public class LinkedListTest {
 
 	public void remove(int pos)
 	{
-		Node temp=head;
-		count =0;
-		while(temp!=null)
+		if(pos<0)
+			return ; 
+		
+		if(head==null) //list is empty
+			return ; //nothing to remove
+		
+		
+		int i=0;
+		Node n=head;
+		while(i<pos && n!=null)
 		{
-			if(count == pos)
-			{
-				head = temp.next;
-				return;
-			}
-			count++;
-			head =temp.next;
-		}
+			i++;
+			n=n.next;
+		}		
+		 //we moved past the last one. Nothing to remove
+		
+		//delete the 'nth' node
+		
+		if(n.previous==null)   //deleting first node
+			head=n.next;
+		else
+			n.previous.next=n.next; //if not the first node
+		
+		if(n.next!=null) // last node			
+			n.next.previous=n.previous; //not the last node
+		//else
+			//do nothing	
 	}
-
-	public void set(int pos, int value) {
-
-	}
-
 
 }

@@ -15,7 +15,7 @@ public class Program {
 		list.display();
 		list.size();
 		list.get(5);
-		list.remove(2);
+		list.remove(5);
 		list.display();
 
 	}
