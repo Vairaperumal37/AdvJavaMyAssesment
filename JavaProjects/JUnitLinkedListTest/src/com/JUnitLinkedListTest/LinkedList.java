@@ -1,6 +1,6 @@
-	package com.JUnitLinkedListTest;
+package com.JUnitLinkedListTest;
 
-
+import java.util.Iterator;
 
 //X is some unknown which will be supplied when creating a object
 public class LinkedList<X> {  	
@@ -8,23 +8,28 @@ public class LinkedList<X> {
 		X value;
 		Node next;
 		Node previous;
+		
 	}
 	Node first;
 	int count;
 	Node last; //always remember the last position.
+	Node current; //last accessed positon
+	int currentPosition;
 	
 	//add a new value at the end of the list
 	public void add(X value) {
 		
 		
-		Node newNode=new Node();
+		Node newNode=new Node(); //allocate memory
 		newNode.value=value;
 		newNode.next= null; //remember this will be the last node.
 		newNode.previous=last; //current last node is my previous
 		
 		count++;
-
+		
 		//scenario#1 ---> List is empty. we are adding the first node
+		
+		
 		if(first==null) 
 			first=newNode; //this node is the first node
 		else
@@ -57,9 +62,18 @@ public class LinkedList<X> {
 	}
 	
 	private Node locate(int pos) {
+	
+		if(pos<0)
+			pos=size()+pos;
 		
 		if(pos<0 || pos>=size())
 			throw new IndexOutOfBoundsException(pos);
+		
+		if(pos==currentPosition+1) {
+			current=current.next;
+			currentPosition++;
+			return current;
+		}
 		
 		int i=0;
 		Node n=first;
@@ -68,36 +82,33 @@ public class LinkedList<X> {
 			i++;
 			n=n.next;
 		}
+		
+		
+		current=n;
+		currentPosition=pos;
+		
+		
 		return n;
 	}
 	
 	public X get(int pos) {
-		Node n = locate(pos);
-		if(n==null)
-			return null;
-		else
-			return n.value;
+		Node n = locate(pos);	
+		
+		return n.value;
 	}
 	
 	public void set(int pos, X value) {
 		Node n = locate(pos);
-		if(n!=null)
-			n.value=value;
+		
+		n.value=value;
 	}
 	
-	public void remove(int pos) {
-		
-		if(pos<0)
-			return ; //nothing to remove
-		
-		if(first==null) //list is empty
-			return ; //nothing to remove
+	public X remove(int pos) {
 		
 		
 		Node n=locate(pos);
 		
-		if(n==null)
-			return ; //we moved past the last one. Nothing to remove
+		
 		
 		//delete the 'nth' node
 		
@@ -110,6 +121,9 @@ public class LinkedList<X> {
 			n.next.previous=n.previous; //not the last node
 		//else
 			//do nothing	
+		
+		count--;
+		return n.value;
 		
 		
 	}
@@ -151,5 +165,32 @@ public class LinkedList<X> {
 		
 		return str;
 	}
+	
+	public Iterator<X> iterator(){
+		return new MyListIterator();
+	}
+	
+	
+	
+	class MyListIterator implements Iterator<X>{
+
+		@Override
+		public boolean hasNext() {
+			// TODO Auto-generated method stub
+			return current != null;
+		}
+
+		@Override
+		public X next() {
+			// TODO Auto-generated method stub
+			X value = current.value;
+			current = current.next;
+			return value;
+		}
+		
+	}
+	
+	
+	
 		
 }

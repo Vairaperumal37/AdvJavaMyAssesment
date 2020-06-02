@@ -11,10 +11,12 @@ public class BinaryTree {
 		int value;
 		Node left;
 		Node right;
+
 	}
 	
 	Node root;
-	
+	int size = 0;
+
 	public Node insert(Node root,int value)
 	{
 		if(root == null)
@@ -37,6 +39,7 @@ public class BinaryTree {
 	public void add(int value)
 	{
 		root = insert (root,value);
+		size++;
 	}
 	
 	public void inOrder(Node root) {
@@ -72,5 +75,10 @@ public class BinaryTree {
 			postOrder(root.right);
 			System.out.println(root.value + "");
 	 }
+
+	public int size() {
+		// TODO Auto-generated method stub
+		return size;
+	}
 	 
 }
